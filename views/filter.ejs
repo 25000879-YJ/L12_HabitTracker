@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Habit Tracker</title>
+    <title>Filter Habits</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -11,9 +11,6 @@
         padding: 20px;
         background: #f5f7fb;
         color: #1a1a1a;
-      }
-      header {
-        margin-bottom: 20px;
       }
       nav a {
         margin-right: 14px;
@@ -23,10 +20,32 @@
       nav a:hover {
         text-decoration: underline;
       }
+      .filter-card,
       table {
         width: 100%;
+        margin-top: 14px;
+      }
+      .filter-card {
+        background: white;
+        padding: 18px;
+        border: 1px solid #dcdfe6;
+        border-radius: 8px;
+      }
+      select,
+      button {
+        padding: 10px;
+        border-radius: 4px;
+        border: 1px solid #cbd2d9;
+      }
+      button {
+        background: #1a73e8;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-left: 10px;
+      }
+      table {
         border-collapse: collapse;
-        margin-top: 16px;
         background: white;
       }
       th,
@@ -34,34 +53,12 @@
         border: 1px solid #dcdfe6;
         padding: 10px 12px;
         text-align: left;
-        vertical-align: top;
       }
       th {
         background: #eef2f7;
       }
-      button,
-      input[type="submit"] {
-        background: #1a73e8;
-        color: white;
-        border: none;
-        padding: 8px 12px;
-        cursor: pointer;
-        border-radius: 4px;
-      }
-      button:hover,
-      input[type="submit"]:hover {
-        background: #155ab6;
-      }
-      .checkbox-form {
-        display: inline-block;
-      }
       .note {
         color: #555;
-      }
-      .empty-state {
-        padding: 20px;
-        text-align: center;
-        color: #666;
       }
       ul {
         margin: 0;
@@ -72,14 +69,26 @@
   <body>
     <%- include('partials/navbar') %>
     <header>
-      <h1>Habit Tracker</h1>
-      <p class="note">Use the table below to track daily habits, update streaks, and delete completed goals.</p>
+      <h1>Filter Habits</h1>
+      <p class="note">Choose a category to see only the habits that belong to it.</p>
     </header>
+    <div class="filter-card">
+      <form method="GET" action="/filter">
+        <label>
+          Category
+          <select name="category">
+            <option value="">All categories</option>
+            <% categories.forEach((category) => { %>
+              <option value="<%= category %>" <%= selectedCategory === category ? 'selected' : '' %>><%= category %></option>
+            <% }) %>
+          </select>
+        </label>
+        <button type="submit">Apply filter</button>
+      </form>
+    </div>
 
     <% if (habits.length === 0) { %>
-      <div class="empty-state">
-        <p>No habits yet. Add one from the Add Habit page.</p>
-      </div>
+      <div class="note" style="margin-top:18px;">No habits found for this category.</div>
     <% } else { %>
       <table>
         <thead>
@@ -90,21 +99,13 @@
             <th>Description</th>
             <th>Category</th>
             <th>To-dos</th>
-            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
           <% habits.forEach((habit) => { %>
             <tr>
               <td><%= habit.name %></td>
-              <td>
-                <form class="checkbox-form" method="POST" action="/toggle/<%= habit.id %>">
-                  <label>
-                    <input type="checkbox" name="done" onchange="this.form.submit()" <%= habit.done ? 'checked' : '' %> />
-                    <span><%= habit.done ? 'Done' : 'Pending' %></span>
-                  </label>
-                </form>
-              </td>
+              <td><%= habit.done ? 'Done' : 'Pending' %></td>
               <td><%= habit.streak %></td>
               <td><%= habit.description %></td>
               <td><%= habit.category %></td>
@@ -118,11 +119,6 @@
                 <% } else { %>
                   <span class="note">No todos</span>
                 <% } %>
-              </td>
-              <td>
-                <form method="POST" action="/delete/<%= habit.id %>" onsubmit="return confirm('Delete this habit?');">
-                  <button type="submit">Delete</button>
-                </form>
               </td>
             </tr>
           <% }) %>

@@ -1,0 +1,28 @@
+﻿<form method="POST" action="/addinghabit">
+  <label>
+    Habit name
+    <input type="text" name="name" placeholder="e.g. Morning run" required />
+  </label>
+
+  <label>
+    Description
+    <textarea name="description" placeholder="Describe the habit"></textarea>
+  </label>
+
+  <label>
+    Category
+    <input list="categoryList" name="category" placeholder="e.g. Health" />
+    <datalist id="categoryList">
+      <% categories.forEach((category) => { %>
+        <option value="<%= category %>"></option>
+      <% }) %>
+    </datalist>
+  </label>
+
+  <label>
+    To-do list
+    <textarea name="todos" placeholder="Add one todo item per line"></textarea>
+  </label>
+
+  <button type="submit">Create habit</button>
+</form>

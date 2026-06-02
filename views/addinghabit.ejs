@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Habit</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f7fb;
+        color: #1a1a1a;
+      }
+      nav a {
+        margin-right: 14px;
+        color: #1a73e8;
+        text-decoration: none;
+      }
+      nav a:hover {
+        text-decoration: underline;
+      }
+      .form-card {
+        background: white;
+        padding: 20px;
+        border: 1px solid #dcdfe6;
+        border-radius: 8px;
+        max-width: 700px;
+      }
+      label {
+        display: block;
+        margin-bottom: 12px;
+      }
+      input[type="text"],
+      textarea,
+      select {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #cbd2d9;
+        border-radius: 4px;
+        margin-top: 6px;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 120px;
+      }
+      button {
+        background: #1a73e8;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        cursor: pointer;
+        border-radius: 4px;
+      }
+      button:hover {
+        background: #155ab6;
+      }
+      .note {
+        color: #555;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('partials/navbar') %>
+    <header>
+      <h1>Add a New Habit</h1>
+      <p class="note">Add habit details, category, and a to-do list for your daily checklist.</p>
+    </header>
+    <div class="form-card">
+      <%- include('partials/addhabit') %>
+    </div>
+  </body>
+</html>
