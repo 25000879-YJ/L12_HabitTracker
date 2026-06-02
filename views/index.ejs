@@ -63,6 +63,27 @@
         text-align: center;
         color: #666;
       }
+      .page-controls {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: 14px;
+        margin-bottom: 16px;
+      }
+      .page-controls select,
+      .page-controls button {
+        padding: 8px 10px;
+        border: 1px solid #cbd2d9;
+        border-radius: 4px;
+      }
+      .page-controls button {
+        background: #1a73e8;
+        color: white;
+        border: none;
+      }
+      .page-controls button:hover {
+        background: #155ab6;
+      }
       ul {
         margin: 0;
         padding-left: 18px;
@@ -75,6 +96,21 @@
       <h1>Habit Tracker</h1>
       <p class="note">Use the table below to track daily habits, update streaks, and delete completed goals.</p>
     </header>
+
+    <div class="page-controls">
+      <form method="GET" action="/">
+        <label>
+          Filter category:
+          <select name="category">
+            <option value="">All categories</option>
+            <% categories.forEach((category) => { %>
+              <option value="<%= category %>" <%= selectedCategory === category ? 'selected' : '' %>><%= category %></option>
+            <% }) %>
+          </select>
+        </label>
+        <button type="submit">Apply</button>
+      </form>
+    </div>
 
     <% if (habits.length === 0) { %>
       <div class="empty-state">

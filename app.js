@@ -35,7 +35,13 @@ function getCategories() {
 }
 
 app.get('/', (req, res) => {
-  res.render('index', { habits });
+  const selectedCategory = req.query.category || '';
+  const categories = getCategories();
+  const filteredHabits = selectedCategory
+    ? habits.filter((habit) => habit.category === selectedCategory)
+    : habits;
+
+  res.render('index', { habits: filteredHabits, categories, selectedCategory });
 });
 
 app.get('/addinghabit', (req, res) => {
